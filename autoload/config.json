@@ -1,0 +1,6 @@
+{
+  "Headers": {
+    "Authorization": "bearer GITHUB_TOKEN",
+    "x-role": "admin"
+  }
+}

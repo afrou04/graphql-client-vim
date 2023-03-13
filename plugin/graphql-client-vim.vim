@@ -4,7 +4,7 @@ endif
 let g:loaded_graphql_client_vim = 1
 
 " Edit http header.json file
-command! -nargs=0 GraphqlClientEditConfig call graphql#edit_config()
+" command! -nargs=0 GraphqlClientEditConfig call graphql#edit_config()
 
 " Open output.json buffer
 command! -nargs=0 GraphqlClientOpenOutput call graphql#open_output()
@@ -12,10 +12,7 @@ command! -nargs=0 GraphqlClientOpenOutput call graphql#open_output()
 " Execute graphql request
 command! -nargs=0 GraphqlClientExecute call graphql#execute_request()
 
-" EchoをOutput.jsonを吐き出す
 " Graphqlのリクエストを送る
-" レスポンスをoutput.jsonに吐き出す
-" 実行コマンドでリクエストを呼び出す
 " .graphqlのファイルを編集
 " 編集した.graphqlのデータをリクエストとして吐き出す
 " Header, Configのファイルを編集
