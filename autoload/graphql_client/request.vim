@@ -8,33 +8,10 @@ endfunction
 
 function! s:request.exec_graphql() abort
   let headers = self.generate_headers()
-  let header = join(headers)
-
-  "---------- endpointを作成する---------------"
-  let endpoint = g:graphql_client_endpoint
-  "---------- endpointを作成する---------------"
-  
-  "---------- request.graphqlからbodyを作成する---------------"
-  let graphql_file = readfile(expand("%:p"))
-  " bufnr("%")
-  let query = join(graphql_file, "")
-  "NOTE: 引数の文字列に対してエスケープしておかないとparaserがエラーになる"
-  let query = substitute(query, "\"", '\\\"', 'g')
-  let body = json_encode({"query": query})
-  "---------- endpointを作成する---------------"
-  
-  "---------- curlの組み立て---------------"
-  let curl = "curl -s -X POST %E %H -d '%B'"
-  let curl = substitute(curl, "%E", endpoint, '')
-  let curl = substitute(curl, "%H", header, '')
-  let curl = substitute(curl, "%B", body, '')
-  "---------- curlの組み立て---------------"
-  
-  "---------- graphql requestを実行---------------"
-  let resp = system(curl)
-  "---------- graphql requestを実行---------------"
-
-  return resp
+  let endpoint = self.generate_endpoint()
+  let body = self.generate_body()
+  let curl = self.build_request(endpoint, headers, body)
+  return system(curl)
 endfunction
 
 function! s:request.generate_headers() abort 
@@ -46,3 +23,24 @@ function! s:request.generate_headers() abort
   return headers
 endfunction
 
+function! s:request.generate_endpoint() abort 
+  return g:graphql_client_endpoint
+endfunction
+
+function! s:request.generate_body() abort 
+  let graphql_file = readfile(expand("%:p"))
+  " bufnr("%")
+  let query = join(graphql_file, "")
+  "NOTE: 引数の文字列に対してエスケープしておかないとparaserがエラーになる"
+  let query = substitute(query, "\"", '\\\"', 'g')
+  return json_encode({"query": query})
+endfunction
+
+function! s:request.build_request(endpoint, headers, body) abort 
+  let header = join(a:headers)
+
+  let curl = "curl -s -X POST %E %H -d '%B'"
+  let curl = substitute(curl, "%E", a:endpoint, '')
+  let curl = substitute(curl, "%H", header, '')
+  return substitute(curl, "%B", a:body, '')
+endfunction
