@@ -1,0 +1,8 @@
+query findOneUser {
+  user(id: "user-1") {
+    id
+    name
+    createdAt
+    updatedAt
+  }
+}
