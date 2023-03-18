@@ -4,7 +4,7 @@ This vim plugin provides graphql client features. Execute requests from a GraphQ
 
 ## Usage
 
-- :GraphQLClientExecute current buffer (*.graphql) as graphql query.
+- `:GraphQLClientExecute` current buffer (*.graphql) as graphql query.
 
 ## Installation
 
@@ -12,7 +12,6 @@ dein
 ```dein.toml
 [[plugins]]
 repo = 'TakuroSugahara/graphql-client-vim'
-https://github.com/
 ```
 
 Neobundle
