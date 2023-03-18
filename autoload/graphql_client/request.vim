@@ -30,8 +30,6 @@ function! s:request.exec_graphql() abort
   let curl = substitute(curl, "%B", body, '')
   "---------- curlの組み立て---------------"
   
-  echo curl
-  
   "---------- graphql requestを実行---------------"
   let resp = system(curl)
   "---------- graphql requestを実行---------------"
