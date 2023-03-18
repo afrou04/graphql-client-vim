@@ -32,14 +32,12 @@ function! graphql_client#execute_request() abort
   endif
 
   " 現在のファイルのfocusを記憶しておく
-  " s:graphql_client.request.save_focus_buffer
+  let graphql_win_id = win_getid()
 
   let resp = s:graphql_client.request.exec_graphql()
-
   call s:graphql_client.output.show()
   call s:graphql_client.output.write(split(resp, '\n'))
 
-  " 記憶した最初のwindowにfocusを戻す必要がある
-  " s:graphql_client.request.focus_buffer
+  call win_gotoid(graphql_win_id)
 endfunction
 

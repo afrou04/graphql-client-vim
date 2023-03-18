@@ -12,10 +12,7 @@ function! s:output.new() abort
 endfunction
 
 function! s:output.show() abort
-  if bufexists(self.buffer_name) 
-    " focusを移すようにしないといけない
-    return
-  endif
+  call self.open_buffer()
   call self.setup_buffer()
 endfunction
 
@@ -30,9 +27,16 @@ function! s:output.write(strings) abort
   "---------- jqコマンドがあればformat ---------------"
 endfunction
 
-function! s:output.setup_buffer() abort
-  botright vnew output.json
+function! s:output.open_buffer() abort
+  let buffer_win = bufwinid(self.buffer_name)
+  if buffer_win > -1
+    call win_gotoid(buffer_win)
+  else
+    execute "botright vnew " . self.buffer_name
+  endif
+endfunction
 
+function! s:output.setup_buffer() abort
   setlocal buftype=nofile
   setlocal bufhidden=wipe
   setlocal noswapfile
