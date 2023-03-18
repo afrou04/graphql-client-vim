@@ -1,8 +1,0 @@
-query {
-  admin(id: "01GTTRWYFC7SGDN4M36KD3441S") {
-    id
-    name
-    idaasID
-    mailAddress
-  }
-}
