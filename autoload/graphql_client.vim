@@ -12,6 +12,7 @@ endfunction
 function! s:graphql_client.new() abort
   let s:graphql_client.request = graphql_client#request#new(g:graphql_client_headers)
   let s:graphql_client.output = graphql_client#output#new()
+  let s:graphql_client.header = graphql_client#header#new()
   return s:graphql_client
 endfunction
 
@@ -39,5 +40,12 @@ function! graphql_client#execute_request() abort
   call s:graphql_client.output.write(split(resp, '\n'))
 
   call win_gotoid(graphql_win_id)
+endfunction
+
+function! graphql_client#open_ui() abort
+  call s:init()
+
+  call s:graphql_client.output.show()
+  call s:graphql_client.header.show()
 endfunction
 
