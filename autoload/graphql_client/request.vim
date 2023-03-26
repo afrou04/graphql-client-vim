@@ -1,32 +1,33 @@
-let s:graphql = {}
+let s:request = {}
 
-function! graphql_client#graphql#new() abort
-  return s:graphql.new()
+function! graphql_client#request#new() abort
+  return s:request.new()
 endfunction
 
-function! s:graphql.new() abort
-  let s:graphql = copy(s:graphql)
-  let s:graphql.buffer_name = 'request.graphql'
-  return s:graphql
+function! s:request.new() abort
+  let s:request = copy(s:request)
+  let s:request.buffer_name = 'request.graphql'
+  return s:request
 endfunction
 
-function! s:graphql.show() abort
+function! s:request.show() abort
   call self.open_buffer()
   call self.setup_buffer()
 endfunction
 
-function! s:graphql.open_buffer() abort
+function! s:request.open_buffer() abort
   let buffer_win = bufwinid(self.buffer_name)
   if buffer_win > -1
     call win_gotoid(buffer_win)
   else
-    execute ":topleft vnew " . self.buffer_name
+    " 現在のバッファと置き換えるようにバッファを作成
+    " execute \":topleft vnew \" . self.buffer_name
+    execute "e " . self.buffer_name
   endif
 endfunction
 
-function! s:graphql.setup_buffer() abort
+function! s:request.setup_buffer() abort
   silent 1,$delete _
-  set readonly
   setlocal buftype=nofile
   setlocal bufhidden=wipe
   setlocal noswapfile
