@@ -27,6 +27,8 @@ endfunction
 function! s:header.setup_buffer() abort
   silent 1,$delete _
   call setline("1", "GraphQL Endpoint: " . g:graphql_client_endpoint)
+  resize 2
+  set readonly
   setlocal buftype=nofile
   setlocal bufhidden=wipe
   setlocal noswapfile
