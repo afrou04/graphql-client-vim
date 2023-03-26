@@ -1,46 +1,34 @@
-let s:request = {}
+let s:graphql = {}
 
-function! graphql_client#request#new(headers) abort
-  let s:request = copy(s:request)
-  let s:request.headers = a:headers
-  return s:request
+function! graphql_client#graphql#new() abort
+  return s:graphql.new()
 endfunction
 
-function! s:request.exec_graphql() abort
-  let headers = self.generate_headers()
-  let endpoint = self.generate_endpoint()
-  let body = self.generate_body()
-  let curl = self.build_request(endpoint, headers, body)
-  return system(curl)
+function! s:graphql.new() abort
+  let s:graphql = copy(s:graphql)
+  let s:graphql.buffer_name = 'request.graphql'
+  return s:graphql
 endfunction
 
-function! s:request.generate_headers() abort 
-  let headers = ["-H 'Content-Type: application/json'"]
-  for k in keys(self.headers)
-    let h = "-H '" .  k . ": " . self.headers[k] . "'"
-    let headers = add(headers, h)
-  endfor
-  return headers
+function! s:graphql.show() abort
+  call self.open_buffer()
+  call self.setup_buffer()
 endfunction
 
-function! s:request.generate_endpoint() abort 
-  return g:graphql_client_endpoint
+function! s:graphql.open_buffer() abort
+  let buffer_win = bufwinid(self.buffer_name)
+  if buffer_win > -1
+    call win_gotoid(buffer_win)
+  else
+    execute ":topleft vnew " . self.buffer_name
+  endif
 endfunction
 
-function! s:request.generate_body() abort 
-  let graphql_file = readfile(expand("%:p"))
-  " bufnr("%")
-  let query = join(graphql_file, "")
-  "NOTE: 引数の文字列に対してエスケープしておかないとparaserがエラーになる"
-  let query = substitute(query, "\"", '\\\"', 'g')
-  return json_encode({"query": query})
-endfunction
-
-function! s:request.build_request(endpoint, headers, body) abort 
-  let header = join(a:headers)
-
-  let curl = "curl -s -X POST %E %H -d '%B'"
-  let curl = substitute(curl, "%E", a:endpoint, '')
-  let curl = substitute(curl, "%H", header, '')
-  return substitute(curl, "%B", a:body, '')
+function! s:graphql.setup_buffer() abort
+  silent 1,$delete _
+  set readonly
+  setlocal buftype=nofile
+  setlocal bufhidden=wipe
+  setlocal noswapfile
+  setlocal hidden
 endfunction

@@ -10,7 +10,7 @@ function! s:init() abort
 endfunction
 
 function! s:graphql_client.new() abort
-  let s:graphql_client.request = graphql_client#request#new(g:graphql_client_headers)
+  let s:graphql_client.curl = graphql_client#curl#new(g:graphql_client_headers)
   let s:graphql_client.output = graphql_client#output#new()
   let s:graphql_client.header = graphql_client#header#new()
   return s:graphql_client
@@ -35,7 +35,7 @@ function! graphql_client#execute_request() abort
   " 現在のファイルのfocusを記憶しておく
   let graphql_win_id = win_getid()
 
-  let resp = s:graphql_client.request.exec_graphql()
+  let resp = s:graphql_client.curl.exec_graphql()
   call s:graphql_client.output.show()
   call s:graphql_client.output.write(split(resp, '\n'))
 
