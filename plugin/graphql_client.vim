@@ -12,6 +12,6 @@ command! -nargs=0 GQLExecute call graphql_client#execute_request()
 " Open graphql client
 " command! -nargs=0 GQLUI call graphql_client#open_ui()
 
-" Open endpoint ui
-command! -nargs=0 GQLOpenEndpoint call graphql_client#open_endpoint()
+" Set endpoint url
+command! -nargs=0 GQLSetEndpoint call graphql_client#set_endpoint()
 

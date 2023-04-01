@@ -15,6 +15,12 @@ function! s:endpoint.show() abort
   call self.setup_buffer()
 endfunction
 
+function! s:endpoint.set_from_commandline() abort
+  let input_endpoint = input('Graphql Endpoint URL: ')
+  let g:graphql_client_endpoint = input_endpoint
+  echo "Setting graphql endpoint: " . g:graphql_client_endpoint
+endfunction
+
 function! s:endpoint.open_buffer() abort
   let buffer_win = bufwinid(self.buffer_name)
   if buffer_win > -1
@@ -33,11 +39,6 @@ function! s:endpoint.setup_buffer() abort
   setlocal noswapfile
   setlocal hidden
 endfunction
-
-" TODO: 
-" endpointをバッファで開く
-" endpointのファイルタイプをみる
-" セーブされたタイミングでエンドポイントを変更する
 
 " WANT: 
 " エンドポイントのデフォルトを管理するファイルを用意する

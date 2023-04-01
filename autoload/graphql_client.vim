@@ -52,8 +52,13 @@ function! graphql_client#open_ui() abort
   call s:graphql_client.output.show()
 endfunction
 
-function! graphql_client#open_endpoint() abort
+" function! graphql_client#open_endpoint() abort
+"   call s:init()
+"   call s:graphql_client.endpoint.show()
+" endfunction
+
+function! graphql_client#set_endpoint() abort
   call s:init()
-  call s:graphql_client.endpoint.show()
+  call s:graphql_client.endpoint.set_from_commandline()
 endfunction
 
