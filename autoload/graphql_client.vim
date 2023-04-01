@@ -13,7 +13,7 @@ function! s:graphql_client.new() abort
   let s:graphql_client.curl = graphql_client#curl#new(g:graphql_client_headers)
   let s:graphql_client.request = graphql_client#request#new()
   let s:graphql_client.output = graphql_client#output#new()
-  let s:graphql_client.header = graphql_client#header#new()
+  let s:graphql_client.endpoint = graphql_client#endpoint#new()
   return s:graphql_client
 endfunction
 
@@ -46,8 +46,14 @@ endfunction
 function! graphql_client#open_ui() abort
   call s:init()
 
-  call s:graphql_client.header.show()
+  " TODO: 分割表示がうまくいかないのでdadboduiを参考にする
+  call s:graphql_client.endpoint.show()
   call s:graphql_client.request.show()
   call s:graphql_client.output.show()
+endfunction
+
+function! graphql_client#open_endpoint() abort
+  call s:init()
+  call s:graphql_client.endpoint.show()
 endfunction
 
