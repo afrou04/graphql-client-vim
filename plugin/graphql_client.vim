@@ -15,3 +15,6 @@ command! -nargs=0 GQLExecute call graphql_client#execute_request()
 " Set endpoint url
 command! -nargs=0 GQLSetEndpoint call graphql_client#set_endpoint()
 
+" Show graphql docs
+command! -nargs=0 GQLShowDocs call graphql_client#show_docs()
+
