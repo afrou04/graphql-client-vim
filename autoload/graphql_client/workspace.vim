@@ -6,8 +6,10 @@ endfunction
 
 function! s:workspace.new(workspaces) abort
   let s:workspace = copy(s:workspace)
-  let s:workspace.buffer_name = 'gql_workspace'
+  let s:workspace.buffer_name = 'gqlui'
   let s:workspace.workspaces = a:workspaces
+  let s:workspace.current_workspace = ''
+  let s:workspace.icons = g:graphql_client_icons
   return s:workspace
 endfunction
 
@@ -26,13 +28,31 @@ function! s:workspace.open_buffer() abort
 endfunction
 
 function! s:workspace.setup_buffer() abort
-  silent 1,$delete _
-  echo self.workspaces
-  " TODO: globalのconfigからkeyで設定
-  " call setline("1", g:graphql_client_workspace)
   vertical-resize 40
+  setlocal filetype=gqlui
   setlocal buftype=nofile
   setlocal bufhidden=wipe
   setlocal noswapfile
   setlocal hidden
+  setlocal modifiable
+
+  " clear file
+  silent 1,$delete _
+
+  " write workspaces
+  call setline(1, '" Press Enter workspace for set endpoint')
+  call setline(2, '')
+
+  let i = 3
+  for k in keys(self.workspaces)
+    let workspace_name = k
+    if self.current_workspace == k
+      let workspace_name = k.' '.self.icons.current_workspace
+    endif
+    call setline(i, workspace_name)
+
+    let i += 1
+  endfor
+
+  setlocal nomodifiable
 endfunction
