@@ -14,7 +14,7 @@ function! s:graphql_client.new() abort
   let s:graphql_client.request = graphql_client#request#new()
   let s:graphql_client.output = graphql_client#output#new()
   let s:graphql_client.endpoint = graphql_client#endpoint#new()
-  let s:graphql_client.docs = graphql_client#docs#new(g:graphql_client_headers)
+  let s:graphql_client.workspace = graphql_client#workspace#new(g:graphql_client_workspaces)
   return s:graphql_client
 endfunction
 
@@ -63,8 +63,8 @@ function! graphql_client#set_endpoint() abort
   call s:graphql_client.endpoint.set_from_commandline()
 endfunction
 
-function! graphql_client#show_docs() abort
+function! graphql_client#show_workspace() abort
   call s:init()
-  call s:graphql_client.docs.show()
+  call s:graphql_client.workspace.show()
 endfunction
 
