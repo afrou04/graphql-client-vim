@@ -40,7 +40,3 @@ function! s:endpoint.setup_buffer() abort
   setlocal hidden
 endfunction
 
-" WANT: 
-" エンドポイントのデフォルトを管理するファイルを用意する
-" セーブしたらファイルを更新する
-" 環境を立ち上げるときにデフォルトの値をファイルから復元して設定する
