@@ -34,13 +34,20 @@ function! s:workspace.setup_buffer() abort
   setlocal bufhidden=wipe
   setlocal noswapfile
   setlocal hidden
-  setlocal modifiable
 
+  nnoremap <silent><buffer> <CR> :call <sid>method('set_current_workspace')<CR>
+
+  call self.redraw()
+  setlocal nomodifiable
+endfunction
+
+function! s:workspace.redraw() abort
+  setlocal modifiable
   " clear file
   silent 1,$delete _
 
   " write workspaces
-  call setline(1, '" Press Enter workspace for set endpoint')
+  call setline(1, '" Press Enter for set endpoint')
   call setline(2, '')
 
   let i = 3
@@ -55,4 +62,25 @@ function! s:workspace.setup_buffer() abort
   endfor
 
   setlocal nomodifiable
+endfunction
+
+" TODO: 現在のworkspaceで設定されている情報を表示する
+function! s:workspace.show_current_workspace() abort
+endfunction
+
+" TODO: requestするときにここの現在のworkspace情報を元にendpoint, headerを設定されるようにする
+function! s:workspace.set_current_workspace() abort
+  let content = getline('.')
+  for k in keys(self.workspaces)
+    if content == k
+      let self.current_workspace = k
+      call self.redraw()
+      echo 'set '.self.current_workspace.' workspace'
+      return
+    endif
+  endfor
+endfunction
+
+function! s:method(method_name) abort
+  return s:workspace[a:method_name]()
 endfunction
