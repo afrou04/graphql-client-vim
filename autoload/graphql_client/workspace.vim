@@ -1,15 +1,17 @@
 let s:workspace = {}
 
-function! graphql_client#workspace#new(workspaces) abort
-  return s:workspace.new(a:workspaces)
+function! graphql_client#workspace#new(workspaces, curl) abort
+  return s:workspace.new(a:workspaces, a:curl)
 endfunction
 
-function! s:workspace.new(workspaces) abort
+function! s:workspace.new(workspaces, curl) abort
   let s:workspace = copy(s:workspace)
   let s:workspace.buffer_name = 'gqlui'
   let s:workspace.workspaces = a:workspaces
+  let s:workspace.curl = a:curl
   let s:workspace.current_workspace_key = len(a:workspaces) > 0 ? keys(a:workspaces)[0] : ''
   let s:workspace.icons = g:graphql_client_icons
+  call s:workspace.set_current_workspace_from_key(s:workspace.current_workspace_key)
   return s:workspace
 endfunction
 
@@ -78,10 +80,18 @@ function! s:workspace.get_workspace_info(key) abort
 endfunction
 
 function! s:workspace.set_current_workspace() abort
-  let content = getline('.')
+  let content = matchstr(getline('.'), '\S\+')
+  call self.set_current_workspace_from_key(content)
+endfunction
+
+function! s:workspace.set_current_workspace_from_key(key) abort
   for k in keys(self.workspaces)
-    if content == k
+    if a:key == k
       let self.current_workspace_key = k
+      let workspace_info = self.get_workspace_info(k)
+      let g:graphql_client_endpoint = workspace_info.endpoint
+      call self.curl.set_headers(workspace_info.headers)
+
       call self.redraw()
       echo 'set '.self.current_workspace_key.' workspace'
       return

@@ -6,6 +6,10 @@ function! graphql_client#curl#new(headers) abort
   return s:curl
 endfunction
 
+function! s:curl.set_headers(headers) abort
+  let self.headers = a:headers
+endfunction
+
 function! s:curl.exec_graphql() abort
   let headers = self.generate_headers()
   let endpoint = self.generate_endpoint()

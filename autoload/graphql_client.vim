@@ -14,7 +14,7 @@ function! s:graphql_client.new() abort
   let s:graphql_client.request = graphql_client#request#new()
   let s:graphql_client.output = graphql_client#output#new()
   let s:graphql_client.endpoint = graphql_client#endpoint#new()
-  let s:graphql_client.workspace = graphql_client#workspace#new(g:graphql_client_workspaces)
+  let s:graphql_client.workspace = graphql_client#workspace#new(g:graphql_client_workspaces, s:graphql_client.curl)
   return s:graphql_client
 endfunction
 
